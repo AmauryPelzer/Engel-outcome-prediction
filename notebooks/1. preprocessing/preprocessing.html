@@ -14270,6 +14270,7 @@ a.anchor-link {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/raw/ResectMap_DATA_2023-11-13_2306.csv&quot;</span><span class="p">)</span>
 <span class="c1"># Dataframe with basic information per patient</span>
@@ -15153,7 +15154,7 @@ Name: race, dtype: int64</pre>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Table-of-Na-percentage-per-column-(df_mrn)">Table of Na percentage per column (df_mrn)<a class="anchor-link" href="#Table-of-Na-percentage-per-column-(df_mrn)">&#182;</a></h2><p>No data in df_mrn from column 380 and on</p>
+<h2 id="Tables-of-Na-percentage-per-column">Tables of Na percentage per column<a class="anchor-link" href="#Tables-of-Na-percentage-per-column">&#182;</a></h2><h3 id="df_mrn">df_mrn<a class="anchor-link" href="#df_mrn">&#182;</a></h3><p>No data in df_mrn from column 380 and on</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15163,13 +15164,13 @@ Name: race, dtype: int64</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the percentage of NaN values per column</span>
-<span class="n">na_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_mrn</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">na_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_mrn</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="mi">380</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># Create a new DataFrame with the results</span>
-<span class="n">na_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;Percentage of NaN&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
+<span class="n">na_df_mrn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;Percentage of NaN&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
 
 <span class="c1"># Display the resulting DataFrame</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">na_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">na_df_mrn</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15189,26 +15190,129 @@ Name: race, dtype: int64</pre>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>                                   Column  Percentage of NaN
-0                               record_id                0.0
-1                redcap_repeat_instrument              100.0
-2                  redcap_repeat_instance              100.0
-3                                     mrn                0.0
-4                              study_site                0.0
-...                                   ...                ...
-4672                          cshq_ds_raw              100.0
-4673                            cshq_ds_z              100.0
-4674                       cshq_total_raw              100.0
-4675                         cshq_total_z              100.0
-4676  neuropsychological_testing_complete              100.0
+<pre>                        Column  Percentage of NaN
+0                    record_id               0.00
+1     redcap_repeat_instrument             100.00
+2       redcap_repeat_instance             100.00
+3                          mrn               0.00
+4                   study_site               0.00
+..                         ...                ...
+375        prev_aeds_name___38               0.00
+376        prev_aeds_name___39               0.00
+377            aeds_prev_other              84.49
+378                  aed_notes              27.62
+379  epilepsy_history_complete               0.00
 
-[4677 rows x 2 columns]
+[380 rows x 2 columns]
 </pre>
 </div>
 </div>
 
 </div>
 
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="df_engel">df_engel<a class="anchor-link" href="#df_engel">&#182;</a></h3><p>No data in df_engel before column 3451 and after 3466</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the percentage of NaN values per column</span>
+<span class="n">na_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_engel</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Create a new DataFrame with the results</span>
+<span class="n">na_df_engel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;Percentage of NaN&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
+
+<span class="c1"># Create a new DataFrame with the columns that are completely empty</span>
+<span class="n">empty_df_engel</span> <span class="o">=</span> <span class="n">na_df_engel</span><span class="p">[</span><span class="n">na_df_engel</span><span class="p">[</span><span class="s2">&quot;Percentage of NaN&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">100</span><span class="p">]</span>
+
+<span class="c1"># Remove columns with only NAs</span>
+<span class="n">df_engel_drop</span> <span class="o">=</span> <span class="n">df_engel</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">empty_df_engel</span><span class="p">[</span><span class="s2">&quot;Column&quot;</span><span class="p">])</span>
+
+<span class="c1"># Display the resulting DataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">na_df_engel</span><span class="p">[</span><span class="n">na_df_engel</span><span class="p">[</span><span class="s2">&quot;Percentage of NaN&quot;</span><span class="p">]</span><span class="o">!=</span><span class="mi">100</span><span class="p">])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>                        Column  Percentage of NaN
+0                    record_id               0.00
+1     redcap_repeat_instrument               0.00
+2       redcap_repeat_instance               0.00
+3451               eo_reviewer               0.73
+3452              eo_date_surg               7.32
+3453              eo_date_clin              12.15
+3454              eo_type_clin              14.93
+3455           eo_yrs_postsurg              13.47
+3456            surg_engel___1               0.00
+3457            surg_engel___2               0.00
+3458            surg_engel___3               0.00
+3459            surg_engel___4               0.00
+3460              engel_class1              52.42
+3461              engel_class2              86.24
+3462              engel_class3              89.60
+3463              engel_class4              86.38
+3464               eo_comments              27.53
+3465   engel_outcomes_complete               0.00
+4677                surg_engel               0.00
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="df">df<a class="anchor-link" href="#df">&#182;</a></h3><p>No data in the df in 72 columns</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the percentage of NaN values per column</span>
+<span class="n">na_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Create a new DataFrame with the results</span>
+<span class="n">na_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;Percentage of NaN&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
+
+<span class="c1"># Create a new DataFrame with the columns that are completely empty</span>
+<span class="n">empty_df</span> <span class="o">=</span> <span class="n">na_df</span><span class="p">[</span><span class="n">na_df</span><span class="p">[</span><span class="s2">&quot;Percentage of NaN&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">100</span><span class="p">]</span>
+
+<span class="c1"># Remove columns with only NAs</span>
+<span class="n">df_drop</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">empty_df</span><span class="p">[</span><span class="s2">&quot;Column&quot;</span><span class="p">])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15240,7 +15344,7 @@ Name: race, dtype: int64</pre>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Columns with &#39;nan&#39; values:
+<pre>Columns with &#39;...&#39; values:
 Index([], dtype=&#39;object&#39;)
 </pre>
 </div>
@@ -15386,6 +15490,252 @@ Index([], dtype=&#39;object&#39;)
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Display column names and data types in a table</span>
+<span class="n">column_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Column Name&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;Data Type&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">column_info</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>                              Column Name Data Type
+0                               record_id    object
+1                redcap_repeat_instrument    object
+2                  redcap_repeat_instance   float64
+3                                     mrn   float64
+4                              study_site   float64
+...                                   ...       ...
+4672                          cshq_ds_raw    object
+4673                            cshq_ds_z    object
+4674                       cshq_total_raw    object
+4675                         cshq_total_z    object
+4676  neuropsychological_testing_complete   float64
+
+[4677 rows x 2 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">df_drop</span><span class="p">[</span><span class="n">df_drop</span><span class="p">[</span><span class="s2">&quot;redcap_repeat_instance&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Group by &#39;record_id&#39; and aggregate non-null values for each column</span>
+<span class="n">consolidated_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;record_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Reset the index to get a clean DataFrame</span>
+<span class="n">consolidated_df</span> <span class="o">=</span> <span class="n">consolidated_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Now, consolidated_df contains one row per patient with non-null information</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">consolidated_df</span><span class="p">)</span>
+
+<span class="c1"># Save dataframe for further use</span>
+<span class="n">consolidated_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/processed/consolidated_df.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>      record_id redcap_repeat_instrument  redcap_repeat_instance        mrn  \
+0    RSCT000111     surgical_information                     1.0  8846243.0   
+1    RSCT000208     surgical_information                     1.0   845657.0   
+2    RSCT000277     surgical_information                     1.0  1715973.0   
+3    RSCT000508     surgical_information                     1.0  8981415.0   
+4    RSCT000749     surgical_information                     1.0  5078875.0   
+..          ...                      ...                     ...        ...   
+672  RSCT099499     surgical_information                     1.0  1737071.0   
+673  RSCT099739     surgical_information                     1.0  1617602.0   
+674  RSCT099741     surgical_information                     1.0  1812168.0   
+675  RSCT099755     surgical_information                     1.0  1804561.0   
+676  RSCT099914     surgical_information                     1.0  1717631.0   
+
+     study_site study_site_other  ny_num_yn ny_num other_study_ids  inc_crit  \
+0           1.0             None        0.0   None            None       1.0   
+1           1.0             None        0.0   None            None       1.0   
+2           1.0             None        0.0   None            None       1.0   
+3           1.0             None        0.0   None            None       1.0   
+4           1.0             None        1.0  NY087            None       1.0   
+..          ...              ...        ...    ...             ...       ...   
+672         1.0             None        0.0   None            None       1.0   
+673         1.0             None        0.0   None            None       1.0   
+674         1.0             None        0.0   None            None       1.0   
+675         1.0             None        0.0   None            None       1.0   
+676         1.0             None        0.0   None            None       1.0   
+
+     ...  cshq_nw_z  cshq_para_raw  cshq_para_z  cshq_breath_raw  \
+0    ...       None           None         None             None   
+1    ...       None           None         None             None   
+2    ...       None           None         None             None   
+3    ...       None           None         None             None   
+4    ...       None           None         None             None   
+..   ...        ...            ...          ...              ...   
+672  ...       None           None         None             None   
+673  ...       None           None         None             None   
+674  ...       None           None         None             None   
+675  ...       None           None         None             None   
+676  ...       None           None         None             None   
+
+     cshq_breath_z  cshq_ds_raw  cshq_ds_z  cshq_total_raw  cshq_total_z  \
+0             None         None       None            None          None   
+1             None         None       None            None          None   
+2             None         None       None            None          None   
+3             None         None       None            None          None   
+4             None         None       None            None          None   
+..             ...          ...        ...             ...           ...   
+672           None         None       None            None          None   
+673           None         None       None            None          None   
+674           None         None       None            None          None   
+675           None         None       None            None          None   
+676           None         None       None            None          None   
+
+     neuropsychological_testing_complete  
+0                                    2.0  
+1                                    2.0  
+2                                    2.0  
+3                                    2.0  
+4                                    2.0  
+..                                   ...  
+672                                  2.0  
+673                                  2.0  
+674                                  2.0  
+675                                  2.0  
+676                                  2.0  
+
+[677 rows x 4677 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the percentage of NaN values per column</span>
+<span class="n">na_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">consolidated_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Create a new DataFrame with the results</span>
+<span class="n">na_consolidated_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;Percentage of NaN&#39;</span><span class="p">:</span> <span class="n">na_percentage</span><span class="o">.</span><span class="n">values</span><span class="p">})</span>
+
+<span class="c1"># Display the resulting DataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">na_consolidated_df</span><span class="p">[</span><span class="n">na_consolidated_df</span><span class="p">[</span><span class="s2">&quot;Percentage of NaN&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">100</span><span class="p">])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>                     Column  Percentage of NaN
+5          study_site_other              100.0
+114       epi_clin_reviewer              100.0
+333         aed_name_other6              100.0
+381      surg_clin_reviewer              100.0
+520   resect_les_extent_oth              100.0
+...                     ...                ...
+4652              srs_sc_t2              100.0
+4653         srs_smot_raw_2              100.0
+4654            srs_smot_2t              100.0
+4655         srs_mann_raw_2              100.0
+4656            srs_mann_2t              100.0
+
+[72 rows x 2 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">consolidated_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/processed/consolidated_df.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Correlation-matrix">Correlation matrix<a class="anchor-link" href="#Correlation-matrix">&#182;</a></h2><p>Only here as a placeholder for future analysis</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -15407,9 +15757,7 @@ Index([], dtype=&#39;object&#39;)
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="c1"># Plot a heatmap of the correlation matrix</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Plot a heatmap of the correlation matrix</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correlation Matrix&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
