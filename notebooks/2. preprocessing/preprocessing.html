@@ -14333,6 +14333,8 @@ a.anchor-link {
 <span class="k">for</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">problematic_columns</span> <span class="ow">in</span> <span class="n">check_result</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">problematic_columns</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Participant </span><span class="si">{</span><span class="n">record_id</span><span class="si">}</span><span class="s2"> has more than 1 row of information in columns: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">problematic_columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">columns_to_exclude</span><span class="p">,</span> <span class="n">columns_to_check</span><span class="p">,</span> <span class="n">check_result</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">problematic_columns</span>
 </pre></div>
 
      </div>
@@ -14462,7 +14464,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read dataframe from the pickle format</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read dataframe from the pickle format</span>
 <span class="n">wide_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/processed/wide_df.pkl&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -19206,7 +19210,7 @@ memory usage: 20.2+ MB
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Set your threshold (e.g., 0.5 for 50%)</span>
-<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.90</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.9</span>
 
 <span class="c1"># Calculate the NaN percentage for each column</span>
 <span class="n">nan_percentages</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -19218,6 +19222,8 @@ memory usage: 20.2+ MB
 <span class="n">count_above_threshold</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns_above_threshold</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of columns with NaN percentage above </span><span class="si">{</span><span class="n">threshold</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">}</span><span class="s2">%: </span><span class="si">{</span><span class="n">count_above_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">nan_percentages</span><span class="p">,</span> <span class="n">count_above_threshold</span>
 </pre></div>
 
      </div>
@@ -19257,7 +19263,7 @@ memory usage: 20.2+ MB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wide_df_drop</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns_above_threshold</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wide_df</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns_above_threshold</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19277,6 +19283,924 @@ memory usage: 20.2+ MB
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">columns_to_exclude</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;redcap_repeat_instrument&quot;</span><span class="p">,</span> <span class="s2">&quot;redcap_repeat_instance&quot;</span><span class="p">,</span> <span class="s2">&quot;mrn&quot;</span><span class="p">,</span> <span class="s2">&quot;study_site_other&quot;</span><span class="p">,</span> <span class="s2">&quot;ny_num_yn&quot;</span><span class="p">,</span> <span class="s2">&quot;ny_num&quot;</span><span class="p">]</span>
+
+<span class="c1">###### IN PROGRESS ######</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Check-for-redundant-columns">Check for redundant columns<a class="anchor-link" href="#Check-for-redundant-columns">&#182;</a></h2><h3 id="Check-for-high-correlation-variables">Check for high correlation variables<a class="anchor-link" href="#Check-for-high-correlation-variables">&#182;</a></h3>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the correlation matrix</span>
+<span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+
+<span class="c1"># Set a threshold for high correlation (e.g., 0.8 for 80%)</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+<span class="c1"># Find pairs of variables with a very high correlation</span>
+<span class="n">high_correlation_pairs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">high_correlation_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">correlation_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">correlation_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+
+<span class="c1"># Print the pairs of variables with a very high correlation</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pairs of variables with correlation above </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">high_correlation_pairs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+    
+<span class="k">del</span> <span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">high_correlation_pairs</span><span class="p">,</span> <span class="n">pair</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Pairs of variables with correlation above 0.8:
+(&#39;dem_yob&#39;, &#39;age&#39;)
+(&#39;dem_yob&#39;, &#39;resect_pt_age&#39;)
+(&#39;age&#39;, &#39;resect_pt_age&#39;)
+(&#39;race___2&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;race___2&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;race___2&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;race___2&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;lang1___1&#39;, &#39;lang1___2&#39;)
+(&#39;lang2___3&#39;, &#39;lang2___4&#39;)
+(&#39;lang2___5&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;lang2___5&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;lang2___5&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;lang2___5&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;lang2___6&#39;, &#39;resect_multi_temp___1&#39;)
+(&#39;lang2___6&#39;, &#39;resect_multi_occip___1&#39;)
+(&#39;etoh_abuse&#39;, &#39;drug_abuse&#39;)
+(&#39;neuro_exam_ptloc&#39;, &#39;phys_exam_ptloc&#39;)
+(&#39;etio_struct_cva&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;etio_struct_cva&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;etio_struct_iventhemo&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;etio_struct_iventhemo&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;etio_struct_hypox_enceph&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;etio_struct_hypox_enceph&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;etio_struct_dem&#39;, &#39;etio_struct_other_neuro&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_focal_unkn_aware___6&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_focal_clonic___6&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_focal_tonic___6&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;etio_struct_dem&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;etio_struct_other_neuro&#39;, &#39;st_focal_unkn_aware___6&#39;)
+(&#39;etio_struct_other_neuro&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;etio_struct_other_neuro&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;etio_struct_other_neuro&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;etio_other_immune&#39;, &#39;etio_other_infect&#39;)
+(&#39;seizure_class___2&#39;, &#39;st_gen_motor___4&#39;)
+(&#39;seizure_class___2&#39;, &#39;st_gen_nonmotor___1&#39;)
+(&#39;seizure_class___3&#39;, &#39;st_unkn_gtc___1&#39;)
+(&#39;seizure_class___4&#39;, &#39;st_unclassified___4&#39;)
+(&#39;st_focal_aware___3&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_aware___3&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_aware___3&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_aware___3&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_impair_aware___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_bilat_tc___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_unkn_aware___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_clonic___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_tonic___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_aware___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_aware___6&#39;, &#39;st_focal_impair_aware___6&#39;)
+(&#39;st_focal_impair_aware___3&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_impair_aware___3&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_impair_aware___3&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_impair_aware___3&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_bilat_tc___5&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_unkn_aware___5&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_clonic___5&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_tonic___5&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_impair_aware___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_bilat_tc___5&#39;, &#39;st_focal_unkn_aware___5&#39;)
+(&#39;st_focal_bilat_tc___5&#39;, &#39;st_focal_clonic___5&#39;)
+(&#39;st_focal_bilat_tc___5&#39;, &#39;st_focal_tonic___5&#39;)
+(&#39;st_focal_bilat_tc___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_bilat_tc___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_unkn_aware___5&#39;, &#39;st_focal_clonic___5&#39;)
+(&#39;st_focal_unkn_aware___5&#39;, &#39;st_focal_tonic___5&#39;)
+(&#39;st_focal_unkn_aware___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_unkn_aware___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_unkn_aware___6&#39;, &#39;st_focal_atonic___6&#39;)
+(&#39;st_focal_unkn_aware___6&#39;, &#39;st_focal_epispasm___6&#39;)
+(&#39;st_focal_unkn_aware___6&#39;, &#39;st_gen_motor_clonic&#39;)
+(&#39;st_focal_unkn_aware___6&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_unkn_aware___6&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;st_focal_clonic___5&#39;, &#39;st_focal_tonic___5&#39;)
+(&#39;st_focal_clonic___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_clonic___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_focal_tonic___6&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_focal_atonic___6&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_focal_epispasm___6&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_clonic___6&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_focal_tonic___5&#39;, &#39;st_focal_atonic___5&#39;)
+(&#39;st_focal_tonic___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_focal_atonic___6&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_focal_epispasm___6&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_tonic___6&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_focal_atonic___5&#39;, &#39;st_focal_epispasm___5&#39;)
+(&#39;st_focal_atonic___6&#39;, &#39;st_focal_epispasm___6&#39;)
+(&#39;st_focal_atonic___6&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_atonic___6&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_atonic___6&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_atonic___6&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_focal_epispasm___6&#39;, &#39;st_gen_motor_myotc&#39;)
+(&#39;st_focal_epispasm___6&#39;, &#39;st_gen_motor_tonic&#39;)
+(&#39;st_focal_epispasm___6&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_focal_epispasm___6&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_gen_motor___1&#39;, &#39;st_gen_nonmotor___4&#39;)
+(&#39;st_gen_motor___4&#39;, &#39;st_gen_nonmotor___1&#39;)
+(&#39;st_gen_motor_myo&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_motor_myotc&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_gen_motor_myotc&#39;, &#39;resect_location&#39;)
+(&#39;st_gen_motor_myotc&#39;, &#39;resect_path_develop___3&#39;)
+(&#39;st_gen_motor_myotc&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;st_gen_nonmotor___1&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;st_gen_nonmotor___6&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;resect_postop_seizure&#39;)
+(&#39;st_gen_motor_clonic&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_motor_tonic&#39;, &#39;st_gen_motor_atonic&#39;)
+(&#39;st_gen_motor_tonic&#39;, &#39;resect_location&#39;)
+(&#39;st_gen_motor_tonic&#39;, &#39;resect_path_develop___3&#39;)
+(&#39;st_gen_motor_tonic&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;st_gen_motor_epispasms&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;st_gen_motor_unspecified&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;st_gen_nonmotor___6&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;resect_location&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;resect_path_develop___3&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;resect_postop_seizure&#39;)
+(&#39;st_gen_motor_atonic&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_motor_epispasms&#39;, &#39;resect_location&#39;)
+(&#39;st_gen_motor_epispasms&#39;, &#39;resect_path_develop___3&#39;)
+(&#39;st_gen_motor_unspecified&#39;, &#39;st_gen_nonmotor___1&#39;)
+(&#39;st_gen_motor_unspecified&#39;, &#39;st_gen_nonmotor___6&#39;)
+(&#39;st_gen_motor_unspecified&#39;, &#39;resect_postop_seizure&#39;)
+(&#39;st_gen_motor_unspecified&#39;, &#39;engel_class4&#39;)
+(&#39;st_gen_nonmotor___2&#39;, &#39;resect_mst_loc___7&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_clonic___1&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_tonic___1&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_myoclonic___1&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_atonic___1&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_epispasm___1&#39;)
+(&#39;st_unkn_gtc___1&#39;, &#39;st_unkn_nonmotor___1&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_motor___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_clonic___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_tonic___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_myoclonic___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_atonic___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_gtc___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_motor___1&#39;, &#39;st_unkn_clonic___1&#39;)
+(&#39;st_unkn_motor___1&#39;, &#39;st_unkn_tonic___1&#39;)
+(&#39;st_unkn_motor___1&#39;, &#39;st_unkn_myoclonic___1&#39;)
+(&#39;st_unkn_motor___4&#39;, &#39;st_unkn_atonic___1&#39;)
+(&#39;st_unkn_motor___4&#39;, &#39;st_unkn_epispasm___1&#39;)
+(&#39;st_unkn_motor___4&#39;, &#39;st_unkn_nonmotor___1&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_clonic___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_tonic___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_myoclonic___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_atonic___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_motor___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_clonic___1&#39;, &#39;st_unkn_tonic___1&#39;)
+(&#39;st_unkn_clonic___4&#39;, &#39;st_unkn_tonic___3&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;st_unkn_tonic___5&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;st_unkn_myoclonic___5&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;st_unkn_atonic___5&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_clonic___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_tonic___5&#39;, &#39;st_unkn_myoclonic___5&#39;)
+(&#39;st_unkn_tonic___5&#39;, &#39;st_unkn_atonic___5&#39;)
+(&#39;st_unkn_tonic___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_tonic___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_tonic___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_myoclonic___2&#39;, &#39;resect_tbs_method_ver___2&#39;)
+(&#39;st_unkn_myoclonic___5&#39;, &#39;st_unkn_atonic___5&#39;)
+(&#39;st_unkn_myoclonic___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_myoclonic___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_myoclonic___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_atonic___1&#39;, &#39;st_unkn_epispasm___1&#39;)
+(&#39;st_unkn_atonic___2&#39;, &#39;st_unkn_epispasm___4&#39;)
+(&#39;st_unkn_atonic___5&#39;, &#39;st_unkn_epispasm___5&#39;)
+(&#39;st_unkn_atonic___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_atonic___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_epispasm___5&#39;, &#39;st_unkn_nonmotor___5&#39;)
+(&#39;st_unkn_epispasm___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;st_unkn_nonmotor___5&#39;, &#39;resect_les_front___3&#39;)
+(&#39;medcomp_aed1&#39;, &#39;medcomp_aed2&#39;)
+(&#39;medcomp_aed1&#39;, &#39;medcomp_aed3&#39;)
+(&#39;medcomp_aed1&#39;, &#39;medcomp_aed4&#39;)
+(&#39;medcomp_aed2&#39;, &#39;medcomp_aed3&#39;)
+(&#39;medcomp_aed2&#39;, &#39;medcomp_aed4&#39;)
+(&#39;medcomp_aed3&#39;, &#39;medcomp_aed4&#39;)
+(&#39;resect_procedure___1&#39;, &#39;resect_dx_electrodes___1&#39;)
+(&#39;resect_procedure___1&#39;, &#39;resect_dx_electrodes___2&#39;)
+(&#39;resect_procedure___2&#39;, &#39;resect_path_proc___1&#39;)
+(&#39;resect_procedure___3&#39;, &#39;resect_atlp_location___1&#39;)
+(&#39;resect_procedure___11&#39;, &#39;resect_callo_loc___1&#39;)
+(&#39;resect_procedure___11&#39;, &#39;resect_callo_loc___2&#39;)
+(&#39;resect_procedure___11&#39;, &#39;resect_callo_loc___3&#39;)
+(&#39;resect_procedure___12&#39;, &#39;resect_mst_loc___5&#39;)
+(&#39;resect_procedure___14&#39;, &#39;resect_tbs_target___2&#39;)
+(&#39;resect_procedure___14&#39;, &#39;resect_tbs_method___2&#39;)
+(&#39;resect_procedure___14&#39;, &#39;resect_tbs_method_ver___1&#39;)
+(&#39;resect_dx_electrodes___1&#39;, &#39;resect_dx_electrodes___2&#39;)
+(&#39;elect_frontal___1&#39;, &#39;elect_temp___1&#39;)
+(&#39;elect_frontal___2&#39;, &#39;elect_temp___2&#39;)
+(&#39;elect_frontal___3&#39;, &#39;elect_temp___3&#39;)
+(&#39;elect_frontal___3&#39;, &#39;elect_pariet___3&#39;)
+(&#39;elect_frontal___3&#39;, &#39;elect_occip___3&#39;)
+(&#39;elect_temp___3&#39;, &#39;elect_pariet___3&#39;)
+(&#39;elect_temp___3&#39;, &#39;elect_occip___3&#39;)
+(&#39;resect_atlp_location___2&#39;, &#39;resect_atlp_location___3&#39;)
+(&#39;resect_atlp_location___2&#39;, &#39;resect_multi_occip___2&#39;)
+(&#39;resect_atlp_location___2&#39;, &#39;resect_multi_par___2&#39;)
+(&#39;resect_atlp_location___3&#39;, &#39;resect_multi_occip___2&#39;)
+(&#39;resect_atlp_location___3&#39;, &#39;resect_multi_par___2&#39;)
+(&#39;resect_atlp_location___4&#39;, &#39;resect_atlp_location___6&#39;)
+(&#39;resect_lesion_type___1&#39;, &#39;resect_path_lesion___2&#39;)
+(&#39;resect_lesion_type___3&#39;, &#39;resect_path_les_vas___1&#39;)
+(&#39;resect_lesion_type___10&#39;, &#39;resect_path_develop___8&#39;)
+(&#39;resect_lesp_loc___5&#39;, &#39;resect_lesp_loc___6&#39;)
+(&#39;resect_multi_temp___1&#39;, &#39;resect_multi_occip___1&#39;)
+(&#39;resect_multi_occip___2&#39;, &#39;resect_multi_par___2&#39;)
+(&#39;resect_callo_loc___1&#39;, &#39;resect_callo_loc___2&#39;)
+(&#39;resect_callo_loc___1&#39;, &#39;resect_callo_loc___3&#39;)
+(&#39;resect_callo_loc___2&#39;, &#39;resect_callo_loc___3&#39;)
+(&#39;resect_tbs_target___2&#39;, &#39;resect_tbs_method___2&#39;)
+(&#39;resect_tbs_target___2&#39;, &#39;resect_tbs_method_ver___1&#39;)
+(&#39;resect_tbs_method___2&#39;, &#39;resect_tbs_method_ver___1&#39;)
+(&#39;resect_tbs_method___4&#39;, &#39;resect_tbs_method_ver___3&#39;)
+(&#39;resect_tbs_method___4&#39;, &#39;resect_tbs_method_ver___5&#39;)
+(&#39;resect_tbs_method_ver___3&#39;, &#39;resect_tbs_method_ver___5&#39;)
+(&#39;resect_path_lesion___3&#39;, &#39;resect_path_infect___3&#39;)
+(&#39;wada_linject&#39;, &#39;wada_rinject&#39;)
+(&#39;trails_comp&#39;, &#39;cowat_comp&#39;)
+(&#39;rocft_comp&#39;, &#39;boston_comp&#39;)
+(&#39;boston_comp&#39;, &#39;cowat_comp&#39;)
+(&#39;boston_comp&#39;, &#39;sf_comp&#39;)
+(&#39;cowat_comp&#39;, &#39;sf_comp&#39;)
+(&#39;bdi2_comp&#39;, &#39;bai_comp&#39;)
+(&#39;fr_comp&#39;, &#39;vfdisc_comp&#39;)
+(&#39;dkefs_comp&#39;, &#39;dkefs_comp2___3&#39;)
+(&#39;dkefs_comp2___1&#39;, &#39;dkefs_comp2___7&#39;)
+(&#39;dkefs_comp2___4&#39;, &#39;dkefs_comp2___5&#39;)
+(&#39;wiat3_comp&#39;, &#39;wiat3_norms___2&#39;)
+(&#39;tol_comp&#39;, &#39;snapiv_comp&#39;)
+(&#39;tol_comp&#39;, &#39;snapiv_form___1&#39;)
+(&#39;basc2_comp&#39;, &#39;basc2_form_type___1&#39;)
+(&#39;stai_comp&#39;, &#39;panas_comp&#39;)
+(&#39;snapiv_comp&#39;, &#39;snapiv_form___1&#39;)
+(&#39;srs_comp&#39;, &#39;srs_type___1&#39;)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Check-for-low-variance">Check for low variance<a class="anchor-link" href="#Check-for-low-variance">&#182;</a></h3>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the variance for each column</span>
+<span class="n">column_variances</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+
+<span class="c1"># Set a threshold for low variance</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># Find columns with a variance very close to 0</span>
+<span class="n">low_variance_columns</span> <span class="o">=</span> <span class="n">column_variances</span><span class="p">[</span><span class="n">column_variances</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span>
+
+<span class="c1"># Print the count of columns with low variance and their names</span>
+<span class="n">count_low_variance_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">low_variance_columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of columns with variance below </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count_low_variance_columns</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print the column names and their variances</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns with variance below </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2"> (sorted by variance):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">variance</span> <span class="ow">in</span> <span class="n">low_variance_columns</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">variance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+<span class="k">del</span> <span class="n">column_variances</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">low_variance_columns</span><span class="p">,</span> <span class="n">count_low_variance_columns</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">variance</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Number of columns with variance below 0.1: 325
+
+Columns with variance below 0.1 (sorted by variance):
+inc_crit: 0.0014771048744460851
+st_focal_clonic___3: 0.0014771048744460851
+st_unkn_nonmotor___4: 0.0014771048744460851
+lang2___6: 0.0014771048744460851
+prev_aeds_name___14: 0.0014771048744460851
+fam_seizure_ppl___8: 0.0014771048744460853
+st_gen_nonmotor___2: 0.0014771048744460853
+st_unkn_myoclonic___2: 0.0014771048744460853
+prev_aeds_name___20: 0.0014771048744460853
+st_unkn_atonic___2: 0.0014771048744460853
+st_unkn_epispasm___4: 0.0014771048744460853
+seizure_class___4: 0.0014771048744460856
+lang1___4: 0.0014771048744460856
+st_focal_aware___3: 0.0014771048744460856
+lang1___6: 0.0014771048744460856
+st_focal_aware___6: 0.0014771048744460856
+st_unclassified___4: 0.0014771048744460856
+st_focal_impair_aware___6: 0.0014771048744460856
+race___4: 0.0014771048744460856
+st_unkn_clonic___4: 0.0014771048744460856
+st_unkn_tonic___3: 0.0014771048744460856
+st_unkn_gtc___5: 0.0014771048744460858
+st_unkn_epispasm___5: 0.0014771048744460858
+prev_aeds_name___32: 0.0014771048744460858
+st_unkn_atonic___5: 0.0014771048744460858
+st_unkn_nonmotor___5: 0.0014771048744460858
+st_unkn_myoclonic___5: 0.0014771048744460858
+st_unkn_tonic___5: 0.0014771048744460858
+st_unkn_clonic___5: 0.0014771048744460858
+st_unkn_motor___5: 0.0014771048744460858
+resect_atlp_location___5: 0.0014792899408284017
+resect_multi_occip___2: 0.001479289940828402
+resect_atlp_location___3: 0.001479289940828402
+resect_multi_occip___1: 0.001479289940828402
+resect_callo_extent___5: 0.001479289940828402
+resect_atlp_location___2: 0.001479289940828402
+resect_multi_temp___1: 0.001479289940828402
+resect_mst_loc___6: 0.001479289940828402
+resect_path_les_vas___2: 0.001479289940828402
+resect_postop_med___6: 0.001479289940828402
+resect_lesion_type___7: 0.001479289940828402
+resect_multi_par___2: 0.001479289940828402
+resect_mst_loc___7: 0.0014792899408284021
+resect_callo_extent___2: 0.0014792899408284021
+resect_tbs_method_ver___2: 0.0014792899408284021
+resect_amyhpc_app___5: 0.0014792899408284021
+resect_postop_neuro___3: 0.0014792899408284021
+resect_postop_neuro___5: 0.0014792899408284021
+resect_les_other___3: 0.0014792899408284021
+resect_postop_neuro___7: 0.0014792899408284021
+resect_lesp_loc___2: 0.0014792899408284021
+resect_tbs_method___4: 0.0014792899408284023
+resect_les_thal___1: 0.0014792899408284023
+resect_tbs_method_ver___3: 0.0014792899408284023
+resect_tbs_method_ver___5: 0.0014792899408284023
+resect_les_front___3: 0.0014792899408284023
+resect_mst_loc___3: 0.0014792899408284023
+resect_postop_med___4: 0.0014792899408284023
+resect_les_mf___1: 0.0014792899408284023
+resect_postop_med___2: 0.0014792899408284023
+resect_lesion_type___5: 0.0014792899408284023
+resect_callo_extent___3: 0.0014792899408284023
+dkefs_comp2___1: 0.0029498396161275384
+st_focal_atonic___2: 0.0029498396161275384
+prev_aeds_name___35: 0.0029498396161275384
+psych_history___8: 0.0029498396161275384
+lang2___5: 0.0029498396161275384
+wiat3_norms___1: 0.0029498396161275384
+dkefs_comp2___7: 0.0029498396161275384
+st_unkn_motor___1: 0.002949839616127539
+st_gen_nonmotor___6: 0.002949839616127539
+st_gen_motor___3: 0.002949839616127539
+lang2___4: 0.002949839616127539
+st_unkn_motor___4: 0.002949839616127539
+prev_aeds_name___30: 0.002949839616127539
+prev_aeds_name___9: 0.002949839616127539
+st_focal_unkn_aware___3: 0.002949839616127539
+resect_hemi_type___1: 0.002954196800350645
+resect_tbs_method___2: 0.0029541968003506456
+resect_lesion_type___4: 0.0029541968003506456
+resect_atlp_location___6: 0.0029541968003506456
+resect_atlp_location___4: 0.0029541968003506456
+resect_postop_neuro___9: 0.0029541968003506456
+resect_callo_loc___1: 0.0029541968003506456
+resect_callo_loc___3: 0.0029541968003506456
+resect_tbs_method_ver___1: 0.0029541968003506456
+resect_procedure___14: 0.0029541968003506456
+resect_procedure___8: 0.0029541968003506456
+resect_path_develop___11: 0.0029541968003506456
+resect_tbs_target___2: 0.0029541968003506456
+resect_dx_electrodes___3: 0.0029541968003506456
+resect_postop_med___7: 0.0029541968003506456
+resect_lesp_loc___4: 0.0029541968003506465
+resect_lesp_loc___3: 0.002954196800350647
+st_unkn_nonmotor___1: 0.0044182042250443575
+st_focal_epispasm___6: 0.0044182042250443575
+psych_history___5: 0.0044182042250443575
+st_focal_atonic___6: 0.0044182042250443575
+st_focal_atonic___3: 0.0044182042250443575
+lang1___3: 0.0044182042250443575
+lang2___3: 0.0044182042250443575
+st_focal_epispasm___3: 0.004418204225044358
+st_unkn_clonic___1: 0.004418204225044358
+st_unkn_tonic___1: 0.004418204225044358
+basc2_form_type___3: 0.004418204225044358
+st_unkn_myoclonic___1: 0.004418204225044358
+st_unkn_atonic___1: 0.004418204225044358
+fam_seizure_ppl___7: 0.004418204225044358
+st_unkn_epispasm___1: 0.004418204225044358
+st_focal_tonic___2: 0.004418204225044359
+resect_lesion_type___9: 0.004424720578566732
+resect_mst_loc___5: 0.004424720578566733
+resect_procedure___11: 0.004424720578566733
+resect_postop_med___8: 0.004424720578566733
+resect_lesp_loc___5: 0.004424720578566733
+resect_les_occip___2: 0.004424720578566733
+resect_hemi_type___3: 0.004424720578566733
+resect_callo_loc___2: 0.004424720578566733
+resect_postop_neuro___10: 0.004424720578566733
+resect_path_les_vas___4: 0.004424720578566733
+race___5: 0.005882198701196543
+st_focal_impair_aware___2: 0.0058821987011965435
+st_focal_clonic___6: 0.0058821987011965435
+st_focal_unkn_aware___6: 0.0058821987011965435
+st_focal_tonic___3: 0.0058821987011965435
+trf_comp: 0.0058821987011965435
+st_focal_tonic___6: 0.0058821987011965435
+dkefs_comp2___2: 0.0058821987011965435
+prev_aeds_name___12: 0.0058821987011965435
+snapiv_form___2: 0.005882198701196544
+st_unkn_gtc___1: 0.005882198701196544
+st_focal_impair_aware___3: 0.005882198701196545
+resect_amyhpc_app___3: 0.005890861275476659
+resect_les_extent___1: 0.005890861275476659
+resect_lesp_loc___6: 0.005890861275476659
+resect_postop_neuro___1: 0.0058908612754766596
+resect_postop_med___1: 0.0058908612754766596
+resect_path_lesion___5: 0.0058908612754766596
+resect_procedure___12: 0.0058908612754766596
+resect_path_tumor___3: 0.0058908612754766596
+resect_les_wm___2: 0.0058908612754766596
+engel_outcomes_complete: 0.0059084194977843405
+lang1___5: 0.007341823044584093
+st_focal_unkn_aware___2: 0.007341823044584093
+st_focal_clonic___2: 0.007341823044584093
+seizure_class___3: 0.007341823044584094
+fam_seizure_ppl___11: 0.007341823044584094
+resect_les_occip___1: 0.007352618891080428
+resect_les_wm___1: 0.00735261889108043
+resect_path_lesion___3: 0.00735261889108043
+resect_postop_neuro___4: 0.00735261889108043
+resect_path_tumor___6: 0.00735261889108043
+resect_path_infect___3: 0.00735261889108043
+resect_procedure___9: 0.00735261889108043
+tomm_ret_need: 0.007692307692307693
+fam_seizure_ppl___5: 0.008797077255207014
+dkefs_comp2___4: 0.008797077255207014
+prev_aeds_name___11: 0.008797077255207016
+wpps_comp: 0.008797077255207016
+resect_les_other___1: 0.008809993425378042
+seizure_class___1: 0.010247961333065297
+fam_seizure_ppl___10: 0.0102479613330653
+psych_history___7: 0.0102479613330653
+srs_type___1: 0.0102479613330653
+st_focal_bilat_tc___3: 0.0102479613330653
+srs_comp: 0.0102479613330653
+fam_seizure_ppl___6: 0.0102479613330653
+resect_amyhpc_app___2: 0.010262984878369494
+resect_amyhpc_app___4: 0.010262984878369494
+resect_les_extent___5: 0.010262984878369494
+cshq_comp: 0.011694475278158947
+st_gen_motor___2: 0.011694475278158947
+st_focal_bilat_tc___2: 0.011694475278158947
+basc2_form_type___2: 0.011694475278158948
+st_gen_nonmotor___4: 0.011694475278158948
+st_gen_motor___1: 0.011694475278158948
+rmt_comp: 0.011694475278158948
+cnt_comp: 0.011694475278158948
+resect_path_tumor___2: 0.01171159325005479
+resect_lesion_type___3: 0.01171159325005479
+resect_procedure___6: 0.01171159325005479
+resect_path_les_vas___1: 0.01171159325005479
+resect_postop_comp___1: 0.011711593250054792
+wiscv_comp: 0.013136619090487966
+dkefs_comp2___5: 0.01313661909048797
+resect_top_loc___7: 0.013155818540433923
+resect_path_develop___3: 0.013155818540433923
+epi_dx_category: 0.013206541214722103
+vfdisc_comp: 0.013252663656382769
+prev_aeds_name___6: 0.014574392770052354
+prev_aeds_name___2: 0.014574392770052354
+fr_comp: 0.014574392770052354
+v2_comp: 0.014574392770052354
+seizure_etiology___3: 0.014574392770052354
+st_focal_aware___2: 0.014574392770052354
+resect_postop_seizure: 0.0150118795708505
+resect_les_other___2: 0.01603111987727372
+resect_top_loc___1: 0.01603111987727372
+resect_path_develop___7: 0.01603111987727372
+resect_postop_med___11: 0.016031119877273722
+fam_seizure_ppl___2: 0.017436829730887223
+fam_seizure_ppl___12: 0.017436829730887223
+scq_comp: 0.017462195923734387
+psych_history___1: 0.018861493012157705
+dkefs_comp2___6: 0.018861493012157705
+resect_les_par___1: 0.01888888888888889
+resect_lesion_type___8: 0.01888888888888889
+resect_les_par___2: 0.01888888888888889
+resect_dx_electrodes___5: 0.01888888888888889
+resect_path_lesion___1: 0.01888888888888889
+resect_path_develop___5: 0.01888888888888889
+st_focal_epispasm___2: 0.020281786160663555
+psych_history___3: 0.020281786160663555
+resect_path_tumor___1: 0.02031119877273724
+resect_top_loc___8: 0.02031119877273724
+fam_seizure_ppl___4: 0.02169770917640478
+snapiv_comp: 0.02169770917640478
+snapiv_form___1: 0.02169770917640478
+resect_path_tumor___5: 0.021729125575279423
+bcet_comp: 0.023109262059381366
+wiat2_comp: 0.023109262059381366
+fam_seizure_ppl___1: 0.024516444809593314
+fam_seizure_ppl___3: 0.024516444809593314
+fam_seizure_ppl___9: 0.024516444809593314
+st_focal_clonic___4: 0.024516444809593314
+resect_les_extent___4: 0.02455182993644532
+resect_path_develop___10: 0.024551829936445325
+cpt2_comp: 0.025919257427040637
+resect_top_loc___3: 0.02595660749506903
+tol_comp: 0.027317699911723323
+resect_postop_comp___2: 0.027357001972386587
+prev_aeds_name___31: 0.028711772263641376
+resect_top_loc___2: 0.028753013368397983
+prev_aeds_name___1: 0.030101474482794786
+cvltc_comp: 0.03148680656918357
+wada_rvision: 0.03275309207512598
+wiat3_norms___2: 0.03286776852280771
+wisciv_comp: 0.03286776852280771
+st_focal_epispasm___4: 0.03286776852280771
+st_focal_atonic___4: 0.03286776852280771
+acs_comp: 0.03286776852280771
+resect_les_extent___6: 0.03291474906859523
+abas2_comp: 0.032914749068595234
+st_focal_unkn_aware___4: 0.03424436034366724
+wiat3_comp: 0.03561658203176213
+prev_aeds_name___29: 0.03561658203176213
+resect_path_develop___2: 0.03566732412886259
+resect_path_develop___4: 0.03566732412886259
+resect_les_front___2: 0.037037037037037035
+jolo_comp: 0.03840236686390532
+resect_les_front___1: 0.03840236686390533
+resect_lesion_type___2: 0.03840236686390533
+wada_lvision: 0.03890253890253891
+lang2___7: 0.03970702629945898
+basc2_form_type___1: 0.03970702629945898
+lang2___2: 0.03970702629945898
+lang1___7: 0.03970702629945898
+dkefs_comp2___3: 0.04106176745649532
+st_focal_tonic___4: 0.04106176745649532
+basc2_comp: 0.04106176745649532
+race___2: 0.04106176745649532
+prev_aeds_name___33: 0.04106176745649532
+engel_class3: 0.04161490683229814
+resect_les_temp___1: 0.04247205785667323
+prev_aeds_name___5: 0.043758139372274116
+resect_atlp_location___1: 0.043819855358316895
+cbcl_comp: 0.045099770131016584
+panas_comp: 0.045099770131016584
+resect_procedure___10: 0.04516326977865438
+resect_procedure___3: 0.04516326977865438
+elect_hpc___3: 0.04516326977865438
+psych_history___12: 0.04643703075699441
+brief_form_type___1: 0.046437030756994416
+resect_lesion_type___10: 0.04650230111768572
+resect_path_tumor___7: 0.04650230111768572
+resect_les_extent___3: 0.046502301117685725
+brief_form_type___2: 0.04776992125020759
+demo_nyu_documents___3: 0.04909844161065612
+resect_les_temp___2: 0.049167214551829944
+stai_comp: 0.05042259183834003
+resect_path_develop___8: 0.050493096646942806
+wraml_comp: 0.05436882172480399
+prev_aeds_name___23: 0.05436882172480399
+resect_top_loc___5: 0.05575279421433267
+resect_top_loc___4: 0.05575279421433267
+beery_vmi_comp: 0.056977790985290135
+dkefs_comp: 0.056977790985290135
+resect_postop_comp___3: 0.058356344510190665
+rbans_comp: 0.058356344510190686
+seiz_onset_zone___4: 0.0621432879130868
+lang2___1: 0.06469981558039734
+resect_top_loc___6: 0.06478851632697787
+prev_aeds_name___28: 0.06597152421490565
+psych_history___6: 0.06723886271664935
+seiz_onset_zone___5: 0.06723886271664935
+prev_aeds_name___10: 0.06723886271664935
+resect_path_hpc___3: 0.06859522244137631
+race___7: 0.06976042932184277
+resect_path_develop___1: 0.06985535831689678
+elect_other___3: 0.07111111111111114
+seizure_etiology___1: 0.07351000323389822
+st_focal_impair_aware___5: 0.07475112093905413
+race___1: 0.07475112093905413
+psych_history___11: 0.07475112093905413
+elect_occip___3: 0.07485207100591715
+elect_pariet___3: 0.07485207100591716
+st_focal_bilat_tc___5: 0.07967189043203134
+st_focal_aware___5: 0.08089115747336402
+st_focal_epispasm___5: 0.08089115747336403
+st_focal_tonic___5: 0.08089115747336403
+st_gen_motor___4: 0.08210605438193214
+st_focal_unkn_aware___5: 0.08210605438193214
+seiz_onset_zone___3: 0.08210605438193214
+brief_comp: 0.08210605438193214
+st_focal_atonic___5: 0.08210605438193214
+resect_lesion_type___1: 0.082215647600263
+prev_aeds_name___37: 0.08331658115773558
+st_focal_clonic___5: 0.08331658115773558
+fam_seizure_ppl___13: 0.08452273780077438
+elect_temp___3: 0.08583826429980278
+ravlt_fc_comp: 0.08930366304528331
+st_gen_nonmotor___1: 0.09048796902449895
+surg_engel___3: 0.09284347058463635
+resect_path_lesion___2: 0.09530571992110454
+elect_frontal___3: 0.09530571992110455
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>C:\Users\Amaury\AppData\Roaming\Python\Python37\site-packages\ipykernel_launcher.py:2: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with &#39;numeric_only=None&#39;) is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
+  
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Count columns with a variance of 0</span>
+<span class="n">zero_variance_columns_count</span> <span class="o">=</span> <span class="p">(</span><span class="n">column_variances</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Get the column names with a variance of 0</span>
+<span class="n">zero_variance_columns</span> <span class="o">=</span> <span class="n">column_variances</span><span class="p">[</span><span class="n">column_variances</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Print the count and names of columns with a variance of 0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of columns with a variance of 0: </span><span class="si">{</span><span class="n">zero_variance_columns_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns with a variance of 0:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">zero_variance_columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    
+<span class="k">del</span> <span class="n">zero_variance_columns_count</span><span class="p">,</span> <span class="n">column</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Number of columns with a variance of 0: 120
+Columns with a variance of 0:
+redcap_repeat_instance
+study_site
+demo_nyu_documents___1
+demo_nyu_documents___2
+demographics_complete
+past_medical_history_complete
+st_focal_bilat_tc___6
+st_gen_motor___5
+st_gen_motor___6
+st_gen_nonmotor___3
+st_gen_nonmotor___5
+st_unkn_gtc___2
+st_unkn_gtc___3
+st_unkn_gtc___4
+st_unkn_gtc___6
+st_unkn_motor___2
+st_unkn_motor___3
+st_unkn_motor___6
+st_unkn_clonic___2
+st_unkn_clonic___3
+st_unkn_clonic___6
+st_unkn_tonic___2
+st_unkn_tonic___4
+st_unkn_tonic___6
+st_unkn_myoclonic___3
+st_unkn_myoclonic___4
+st_unkn_myoclonic___6
+st_unkn_atonic___3
+st_unkn_atonic___4
+st_unkn_atonic___6
+st_unkn_epispasm___2
+st_unkn_epispasm___3
+st_unkn_epispasm___6
+st_unkn_nonmotor___2
+st_unkn_nonmotor___3
+st_unkn_nonmotor___6
+st_unclassified___1
+st_unclassified___2
+st_unclassified___3
+st_unclassified___5
+st_unclassified___6
+prev_aeds_name___4
+prev_aeds_name___8
+prev_aeds_name___19
+prev_aeds_name___22
+prev_aeds_name___24
+prev_aeds_name___26
+epilepsy_history_complete
+resect_procedure___13
+resect_dx_electrodes___4
+resect_atlp_location___7
+resect_amyhpc_app___1
+resect_lesion_type___6
+resect_les_temp___3
+resect_les_par___3
+resect_les_occip___3
+resect_les_hypoth___1
+resect_les_hypoth___2
+resect_les_hypoth___3
+resect_les_thal___2
+resect_les_thal___3
+resect_les_bg___1
+resect_les_bg___2
+resect_les_bg___3
+resect_les_stem___1
+resect_les_stem___2
+resect_les_stem___3
+resect_les_cere___1
+resect_les_cere___2
+resect_les_cere___3
+resect_les_wm___3
+resect_les_mf___2
+resect_les_mf___3
+resect_les_extent___7
+resect_lesp_loc___1
+resect_lesp_loc___7
+resect_multi_temp___2
+resect_multi_par___1
+resect_multi_front___1
+resect_multi_front___2
+resect_hemi_type___2
+resect_hemi_type___4
+resect_callo_loc___4
+resect_callo_loc___5
+resect_callo_loc___6
+resect_callo_loc___7
+resect_callo_extent___1
+resect_callo_extent___4
+resect_mst_loc___1
+resect_mst_loc___2
+resect_mst_loc___4
+resect_tbs_target___1
+resect_tbs_target___3
+resect_tbs_target___4
+resect_tbs_target___5
+resect_tbs_target___6
+resect_tbs_target___7
+resect_tbs_target___8
+resect_tbs_method___1
+resect_tbs_method___3
+resect_tbs_method_ver___4
+resect_path_hpc___2
+resect_path_les_vas___3
+resect_path_tumor___4
+resect_path_infect___1
+resect_path_infect___2
+resect_path_develop___9
+resect_postop_neuro___2
+resect_postop_neuro___6
+resect_postop_neuro___8
+resect_postop_med___3
+resect_postop_med___5
+resect_postop_med___9
+resect_postop_med___10
+surgical_information_complete
+neuroanatomical_labeling_complete
+pic2_comp
+cas_comp
+srs_type___2
+neuropsychological_testing_complete
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Delete-columns-with-a-variance-of-0">Delete columns with a variance of 0<a class="anchor-link" href="#Delete-columns-with-a-variance-of-0">&#182;</a></h3>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wide_df</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">zero_variance_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">zero_variance_columns</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Delete-redundant-columns">Delete redundant columns<a class="anchor-link" href="#Delete-redundant-columns">&#182;</a></h3>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
      </div>
