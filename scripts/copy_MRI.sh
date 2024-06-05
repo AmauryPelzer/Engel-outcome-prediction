@@ -4,7 +4,7 @@
 CSV_FILE="../data/processed/MRI_file_path.csv"
 HPC_USERNAME="apelzer"
 HPC_HOST="m3.massive.org.au"
-HPC_DEST_DIR="~/vn36_scratch/apelzer/engel_mri"
+HPC_DEST_DIR="~/vn36_scratch/apelzer/engel_mri/raw"
 
 # Read the CSV file line by line
 echo "Starting the file copy process..."
@@ -17,8 +17,9 @@ do
   if [[ -n "$CORRECTED_PATH" ]]; then
     echo "Copying file for ParticipantID $ParticipantID: $CORRECTED_PATH"
     # Copy the file to the HPC
-    scp $CORRECTED_PATH ${HPC_USERNAME}@${HPC_HOST}:${HPC_DEST_DIR}
-    
+    #scp $CORRECTED_PATH ${HPC_USERNAME}@${HPC_HOST}:${HPC_DEST_DIR}
+    cp $CORRECTED_PATH mri
+
     if [[ $? -eq 0 ]]; then
       echo "Successfully copied $CORRECTED_PATH to ${HPC_DEST_DIR}"
     else
