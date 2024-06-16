@@ -10,7 +10,7 @@ mkdir -p "$output_folder"
 # Function to reorient an MRI
 reorient_mri() {
   local input_file=$1
-  local output_file="${output_folder}/$(basename $input_file)"
+  local output_file="$2"
   fslreorient2std "$input_file" "$output_file"
 }
 
@@ -32,9 +32,14 @@ show_progress() {
 # Loop through all MRI files in the input folder and process them sequentially
 for input_file in "$input_folder"/*; do
   if [ -f "$input_file" ]; then
-    reorient_mri "$input_file"
-    ((processed_files++))
-    show_progress
+    output_file="${output_folder}/$(basename ${input_file%.*}).nii.gz"
+    if [ ! -f "$output_file" ]; then
+      reorient_mri "$input_file" "$output_file"
+      ((processed_files++))
+      show_progress
+    else
+      echo "File already exists: $output_file"
+    fi
   fi
 done
 

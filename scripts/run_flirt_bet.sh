@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the reference image path
-REFERENCE="$FSLDIR/data/standard/MNI152_T1_2mm.nii.gz"
+REFERENCE="$FSLDIR/data/standard/MNI152_T1_2mm_brain.nii.gz"
 
 # Directory where your MRI datasets are stored
 input_folder="bet"
